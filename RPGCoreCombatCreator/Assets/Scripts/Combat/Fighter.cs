@@ -10,7 +10,7 @@ namespace RPG.Combat
     {
         [SerializeField] float weaponRange = 2;
         [SerializeField] float timeBetweenAttack = 1;
-        float timeSinceLastAttack = 0;
+        float timeSinceLastAttack = Mathf.Infinity;
 
         [SerializeField] float weaponDamage = 5;
 

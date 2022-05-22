@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using RPG.Movement;
 using System;
 using RPG.Combat;
+using RPG.Core;
 
 namespace RPG.Control
 {
@@ -11,14 +12,19 @@ namespace RPG.Control
     {
         Mover mover = null;
         Fighter fighter = null;
+        Health health = null;
 
         private void Awake() {
             mover = GetComponent<Mover>();
             fighter = GetComponent<Fighter>();
+            health = GetComponent<Health>();
         }
 
         private void Update()
         {
+            if(health.IsDead())
+                return;
+
             if(InteractWithCombat()) 
                 return;
 
@@ -31,15 +37,15 @@ namespace RPG.Control
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach(RaycastHit hit in hits)
             {
-                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
+                GameObject target = hit.transform.gameObject; //combat target
                 if(target==null)
                     continue;
 
-                if(!fighter.IsCanAttack(target.gameObject))
+                if(!fighter.IsCanAttack(target))
                     continue;
 
                 if(Input.GetMouseButtonDown(0))
-                    fighter.Attack(target.gameObject);
+                    fighter.Attack(target);
 
                 return true;
             }
