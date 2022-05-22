@@ -65,12 +65,13 @@ namespace RPG.Combat
             animator.SetTrigger("attack");
         }
 
-        public bool IsCanAttack(CombatTarget target)
+        public bool IsCanAttack(GameObject target)
         {
             if(target == null)
                 return false;
 
-            return !target.GetComponent<Health>().IsDead();
+            Health targetHealth = target.GetComponent<Health>();
+            return targetHealth !=null && !targetHealth.IsDead();
         }
 
         //Animation Event
@@ -86,7 +87,7 @@ namespace RPG.Combat
         }
 
         //set target
-        public void Attack(CombatTarget target)
+        public void Attack(GameObject target)
         {
             actionScheduler.StartAction(this);
             this.target = target.GetComponent<Health>();
