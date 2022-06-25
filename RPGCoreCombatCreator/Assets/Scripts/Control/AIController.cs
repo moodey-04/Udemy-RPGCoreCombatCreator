@@ -11,21 +11,21 @@ namespace RPG.Control
         Fighter fighter;
         GameObject player;
         Health health;
-       
+
         void Start()
         {
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();
-             player = GameObject.FindWithTag("Player");
+            player = GameObject.FindWithTag("Player");
         }
-       
+
 
         void Update()
         {
-            if(health.IsDead())
+            if (health.IsDead())
                 return;
 
-            if(IsAttackRangeOfPlayer() && fighter.IsCanAttack(player))
+            if (IsAttackRangeOfPlayer() && fighter.IsCanAttack(player))
             {
                 fighter.Attack(player);
             }
@@ -37,8 +37,15 @@ namespace RPG.Control
 
         bool IsAttackRangeOfPlayer()
         {
-            float distanceToPlayer = Vector3.Distance(player.transform.position,this.transform.position);
+            float distanceToPlayer = Vector3.Distance(player.transform.position, this.transform.position);
             return distanceToPlayer < chaseDistance;
+        }
+
+        //called by unity
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);
         }
     }
 }
