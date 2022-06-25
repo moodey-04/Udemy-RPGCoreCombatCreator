@@ -1,5 +1,6 @@
 using RPG.Combat;
 using RPG.Core;
+using RPG.Movement;
 using UnityEngine;
 
 namespace RPG.Control
@@ -11,12 +12,17 @@ namespace RPG.Control
         Fighter fighter;
         GameObject player;
         Health health;
+        Mover mover;
+
+        Vector3 guardPosition;
 
         void Start()
         {
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();
             player = GameObject.FindWithTag("Player");
+            mover = GetComponent<Mover>();
+            guardPosition = this.transform.position;
         }
 
 
@@ -31,7 +37,7 @@ namespace RPG.Control
             }
             else
             {
-                fighter.Cancel();
+                mover.StartMoveAction(guardPosition);
             }
         }
 
@@ -39,6 +45,12 @@ namespace RPG.Control
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, this.transform.position);
             return distanceToPlayer < chaseDistance;
+        }
+
+        bool IsAttackRangeOfPlayerGreater()
+        {
+            float distanceToPlayer = Vector3.Distance(player.transform.position, this.transform.position);
+            return distanceToPlayer > chaseDistance;
         }
 
         //called by unity

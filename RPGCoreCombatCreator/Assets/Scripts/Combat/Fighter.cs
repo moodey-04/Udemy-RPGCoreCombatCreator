@@ -18,8 +18,8 @@ namespace RPG.Combat
         Mover mover = null;
         ActionScheduler actionScheduler = null;
         Animator animator = null;
-        
-        private void Awake() 
+
+        private void Awake()
         {
             mover = GetComponent<Mover>();
             actionScheduler = GetComponent<ActionScheduler>();
@@ -30,11 +30,11 @@ namespace RPG.Combat
         {
             timeSinceLastAttack += Time.deltaTime;
 
-            if(target == null)
+            if (target == null)
                 return;
 
             //if target die stop attack
-            if(target.IsDead())
+            if (target.IsDead())
                 return;
 
             //move to target
@@ -51,7 +51,7 @@ namespace RPG.Combat
         private void AttackBehaviour()
         {
             this.transform.LookAt(target.transform);
-            if(timeSinceLastAttack > timeBetweenAttack)
+            if (timeSinceLastAttack > timeBetweenAttack)
             {
                 //This will trigger the Hit() events
                 TriggerAttack();
@@ -67,17 +67,17 @@ namespace RPG.Combat
 
         public bool IsCanAttack(GameObject target)
         {
-            if(target == null)
+            if (target == null)
                 return false;
 
             Health targetHealth = target.GetComponent<Health>();
-            return targetHealth !=null && !targetHealth.IsDead();
+            return targetHealth != null && !targetHealth.IsDead();
         }
 
         //Animation Event
         void Hit()
         {
-            if(target != null)
+            if (target != null)
                 target.TakeDamage(weaponDamage);
         }
 
@@ -106,6 +106,6 @@ namespace RPG.Combat
             animator.SetTrigger("cancelAttack");
         }
 
-        
+
     }
 }

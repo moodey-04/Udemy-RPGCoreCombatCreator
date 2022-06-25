@@ -14,7 +14,8 @@ namespace RPG.Control
         Fighter fighter = null;
         Health health = null;
 
-        private void Awake() {
+        private void Awake()
+        {
             mover = GetComponent<Mover>();
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();
@@ -22,29 +23,32 @@ namespace RPG.Control
 
         private void Update()
         {
-            if(health.IsDead())
+            if (health.IsDead())
                 return;
 
-            if(InteractWithCombat()) 
+            if (InteractWithCombat())
                 return;
 
-            if(InteractWithMovement())
+            if (InteractWithMovement())
                 return;
         }
 
         private bool InteractWithCombat()
         {
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
-            foreach(RaycastHit hit in hits)
+            foreach (RaycastHit hit in hits)
             {
                 GameObject target = hit.transform.gameObject; //combat target
-                if(target==null)
+                if (target == null)
                     continue;
 
-                if(!fighter.IsCanAttack(target))
+                if (target == this.gameObject)
                     continue;
 
-                if(Input.GetMouseButtonDown(0))
+                if (!fighter.IsCanAttack(target))
+                    continue;
+
+                if (Input.GetMouseButtonDown(0))
                     fighter.Attack(target);
 
                 return true;
